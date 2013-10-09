@@ -1,0 +1,7 @@
+body {
+    padding: 1em;
+}
+.bloc {
+    height: 400px;
+    border-bottom: 2px solid #000;
+}
