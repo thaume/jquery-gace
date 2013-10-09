@@ -6,7 +6,7 @@ jQuery GACE is a plugin for tracking custom events in your web page. It provides
 1. Include jQuery:
 
 	```html
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 	```
 
 2. Include plugin's code:
@@ -59,7 +59,7 @@ It will create and send a pageview on plugin load.
 ### Better Mobile Browser detection
 Today, Google Analytics can display if the browser is Safari (browser or in-app) but it can't detect if the website was run in standalone ("Add To Home Screen" iOS option) or in iOS Chrome.
 
-To add custom event for this browsers mode, configure GACE:
+- Activation:
 
 	```javascript
 	$.gace({
@@ -80,18 +80,17 @@ To add custom event for this browsers mode, configure GACE:
 
 This option control the way to store the browser events in Google Analytics.
 
-1) "event"
+1. "event"
 Will store the informations in "Events" with this organisation:
 Mobile Browser Kind > view > [browser name]
 
 Where [browser name] will be: iOS Safari, iOS standalone, iOS UIWebView or iOS Chrome.
 
-2) "dimension"
-
+2. "dimension"
 If you are using Universal Analytics, you can configure custom Dimensions. You can use 20 dimensions. The browser version is more a Dimension (context) than an event.
 You can provide the index you want to use.
 
-3) "customVar"
+3. "customVar"
 This is for the old (actual in fact) Google Analytics (ga.js).
 You can use 5 custom variables. If you want to store the mobile version as a custom variable,
 
@@ -106,7 +105,9 @@ Once detected, you have access to a callback with the browser name passed in par
 
 
 ### Inactive Tab
-Do you know a lot of users will open your page, navigate in an other tab for one or two minutes, and then be back on your page? To track how many times your page was put in background (inactive) you can activate the GACE option:
+Do you know a lot of users will open your page, navigate in an other tab for one or two minutes, and then be back on your page? To track how many times your page was put in background (inactive) you can activate the GACE option.
+
+- Activation:
 
 	```javascript
 	$.gace({
@@ -140,6 +141,8 @@ Same as `inactiveTabMinTime`, default to "null" so we keep tracking everything. 
 ## Outbound Links
 In Google Analytics there is no way to know what externals or download links your visitor has clicked. If you have a download like a PDF or other, you can't track it. GACE provides a flexible way to track this events.
 
+- Activation:
+
 	```javascript
 	$.gace({
 		ua: "UA-XXXXXXXX-X",
@@ -170,6 +173,8 @@ This timeout can be configured with this option.
 ## Social Tracking
 This plugin integrates a simple tracker for Facebook and Twitter shares activity. It will load the Twitter and Facebook SDK so you just need to put your HTML but not load the Twitter and Facebook widget JavaScript.
 
+- Activation:
+
 	```javascript
 	$.gace({
 		ua: "UA-XXXXXXXX-X",
@@ -197,7 +202,7 @@ But you can track them as a classic Event, just change this option to "event".
 This will set a eventValue to each social events. It can be interesting to see when they share the page. Is it 2 seconds after the page is open? 2 minutes?
 If you activate this, your action name in the Plugin section will look like: "Tweet (24 sec)". That mean the visitor tweet the link 24 seconds after he was on the page.
 
-## Scroll Events
+## Scroll Events (under construction)
 This feature is for landing pages or content pages. You want to track if a user actually read your content. GACE will track two metrics: if the bloc id visible + how many times he stays on the bloc.
 
 bloc readed = scroll position (bloc visible) + time at this position.
@@ -206,6 +211,17 @@ You configure every bloc in your HTML, this way:
 
 	<div data-gace-bloc="feature3" data-gace-time="2">
 	</div>
+
+- Activation:
+
+	```javascript
+	$.gace({
+		ua: "UA-XXXXXXXX-X",
+		domain: "example.com",
+
+		scrollEvents: true
+	});
+	```
 
 - `data-gace-bloc`
 Name of the bloc you want to track
@@ -217,8 +233,18 @@ When a bloc with `data-gace-bloc` is visible and the minimum time on the bloc is
 
 Read > scroll > [data-gace-bloc]
 
-## Form events
-TODO
+## Form events (under construction)
+
+- Activation:
+
+	```javascript
+	$.gace({
+		ua: "UA-XXXXXXXX-X",
+		domain: "example.com",
+
+		formEvents: true
+	});
+	```
 
 ## Structure
 
