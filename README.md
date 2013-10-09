@@ -281,7 +281,7 @@ The basic structure of the project is given in the following way:
 	npm install
 	```
 
-### Build
+3. Build
 
 	```shell
 	grunt
