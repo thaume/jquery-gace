@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Jquery GACE (Google Analytics Custom Events) by damln</title>
+    <title>jQuery GACE by damln</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
@@ -15,7 +15,7 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1>Jquery GACE (Google Analytics Custom Events)</h1>
+        <h1>jQuery GACE</h1>
         <p>Start tracking the right things.</p>
 
         <p class="view"><a href="https://github.com/damln/jquery-gace">View the Project on GitHub <small>damln/jquery-gace</small></a></p>
@@ -83,16 +83,28 @@ You don't need to load the Google Analytics JavaScript (<code>ga.js</code> or <c
 <span class="p">});</span>
 </pre></div>
 </li>
-<li><p><code>debug</code> (default: <code>false</code>)
-If <code>true</code>, no events will be send to Google Analytics. Instead, <code>console.log</code> will be call with the detail of the event. Very usefull for debugging.</p></li>
-<li><p><code>kind</code> (default: "ga", can be "_gaq")
-You can choose to send event with <code>ga()</code> (new Universal Analytics) or <code>_gaq.push</code> (classic Google Analytics). Both can coexist. But Google recommends to use the new Universal Analytics.</p></li>
-<li><p><code>domain</code> (default: window.location.hostname)
-the domain you want to track. You can put "none" for development (track localhost).</p></li>
-<li><p><code>ua</code> (default: UA-XXXXXXXX-X)
-Your Google Analytics profile identifier.</p></li>
-<li><p><code>sendPageViewOnStart</code> (default: true)
-It will create and send a pageview on plugin load.</p></li>
+<li><p><code>debug</code> (default: <code>false</code>)</p></li>
+</ul><p>If <code>true</code>, no events will be send to Google Analytics. Instead, <code>console.log</code> will be call with the detail of the event. Very usefull for debugging.</p>
+
+<ul>
+<li>
+<code>kind</code> (default: "ga", can be "_gaq")</li>
+</ul><p>You can choose to send event with <code>ga()</code> (new Universal Analytics) or <code>_gaq.push</code> (classic Google Analytics). Both can coexist. But Google recommends to use the new Universal Analytics.</p>
+
+<ul>
+<li>
+<code>domain</code> (default: window.location.hostname)</li>
+</ul><p>the domain you want to track. You can put "none" for development (track localhost).</p>
+
+<ul>
+<li>
+<code>ua</code> (default: UA-XXXXXXXX-X)</li>
+</ul><p>Your Google Analytics profile identifier.</p>
+
+<ul>
+<li>
+<code>sendPageViewOnStart</code> (default: true)
+It will create and send a pageview on plugin load.</li>
 </ul><h3>
 <a name="better-mobile-browser-detection" class="anchor" href="#better-mobile-browser-detection"><span class="octicon octicon-link"></span></a>Better Mobile Browser detection</h3>
 
@@ -119,7 +131,7 @@ It will create and send a pageview on plugin load.</p></li>
 <li><p><code>mobileBrowsersMode</code> (default: "customVar")</p></li>
 </ul><p>This option control the way to store the browser events in Google Analytics. You can use:</p>
 
-<pre><code>- `"event"`
+<pre><code>- **`event`**
 </code></pre>
 
 <p>Will store the informations in "Events" with this organisation:
@@ -127,13 +139,13 @@ Mobile Browser Kind &gt; view &gt; [browser name]</p>
 
 <p>Where [browser name] will be: iOS Safari, iOS standalone, iOS UIWebView or iOS Chrome.</p>
 
-<pre><code>- `"dimension"`
+<pre><code>- **`dimension`**
 </code></pre>
 
 <p>If you are using Universal Analytics, you can configure custom Dimensions. You can use 20 dimensions. The browser version is more a Dimension (context) than an event.
 You can provide the index you want to use.</p>
 
-<pre><code>- `"customVar"`
+<pre><code>- *`customVar`*
 </code></pre>
 
 <p>This is for the old (actual in fact) Google Analytics (ga.js).
