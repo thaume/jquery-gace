@@ -1,0 +1,382 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Jquery GACE (Google Analytics Custom Events) by damln</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Jquery GACE (Google Analytics Custom Events)</h1>
+        <p>Start tracking the right things.</p>
+
+        <p class="view"><a href="https://github.com/damln/jquery-gace">View the Project on GitHub <small>damln/jquery-gace</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/damln/jquery-gace/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/damln/jquery-gace/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/damln/jquery-gace">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="jquery-google-analytics-custom-events" class="anchor" href="#jquery-google-analytics-custom-events"><span class="octicon octicon-link"></span></a>jQuery Google Analytics Custom Events</h1>
+
+<p>jQuery GACE is a plugin for tracking custom events in your web page. It provides a simple wrapper for some custom elements.</p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<ol>
+<li>
+<p>Include jQuery:</p>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
+</li>
+<li>
+<p>Include plugin's code:</p>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"dist/jquery.gace.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
+</li>
+<li>
+<p>Call the plugin:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">jQuery</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">gace</span><span class="p">({</span>
+        <span class="nx">ua</span><span class="o">:</span> <span class="s2">"UA-XXXXXXXX-X"</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+</li>
+</ol><h2>
+<a name="features-and-options" class="anchor" href="#features-and-options"><span class="octicon octicon-link"></span></a>Features and Options</h2>
+
+<h3>
+<a name="first-configuration" class="anchor" href="#first-configuration"><span class="octicon octicon-link"></span></a>First configuration</h3>
+
+<ul>
+<li><p><code>debug</code> (default: false)
+If true, no events will be send to Google Analytics. Instead, console.log will be call with the detail of the event. Very usefull for debugging.</p></li>
+<li><p><code>kind</code> (default: "ga", can be "_gaq")
+You can choose to send event with <code>ga()</code> (new Universal Analytics) or <code>_gaq.push</code> (classic Google Analytics). Both can coexist. But Google recommends to use the new Universal Analytics.</p></li>
+<li><p><code>domain</code> (default: window.location.hostname)
+the domain you want to track. You can put "none" for development.</p></li>
+<li><p><code>ua</code> (default: UA-XXXXXXXX-X)
+Your Google Analytics profile identifier.</p></li>
+<li>
+<p><code>sendPageViewOnStart</code> (default: true)
+It will create and send a pageview on plugin load.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">jQuery</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">gace</span><span class="p">({</span>
+        <span class="nx">debug</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="nx">ua</span><span class="o">:</span> <span class="s2">"UA-XXXXXXXX-X"</span><span class="p">,</span>
+        <span class="nx">kind</span><span class="o">:</span> <span class="s2">"ga"</span><span class="p">,</span>
+        <span class="nx">domain</span><span class="o">:</span> <span class="s2">"none"</span><span class="p">,</span>
+        <span class="nx">sendPageViewOnStart</span><span class="o">:</span> <span class="kc">true</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+</li>
+</ul><h3>
+<a name="better-mobile-browser-detection" class="anchor" href="#better-mobile-browser-detection"><span class="octicon octicon-link"></span></a>Better Mobile Browser detection</h3>
+
+<p>Today, Google Analytics can display if the browser is Safari (browser or in-app) but it can't detect if the website was run in standalone ("Add To Home Screen" iOS option) or in iOS Chrome.</p>
+
+<ul>
+<li>
+<p>Activation:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">$</span><span class="p">.</span><span class="nx">gace</span><span class="p">({</span>
+    <span class="nx">ua</span><span class="o">:</span> <span class="s2">"UA-XXXXXXXX-X"</span><span class="p">,</span>
+    <span class="nx">domain</span><span class="o">:</span> <span class="s2">"example.com"</span><span class="p">,</span>
+
+    <span class="nx">mobileBrowsers</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+
+    <span class="c1">// Optional:</span>
+    <span class="nx">mobileBrowsersMode</span><span class="o">:</span> <span class="s2">"customVar"</span>
+    <span class="nx">mobileBrowsersCustomVarIndex</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nx">mobileBrowsersDimensionIndex</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nx">mobileBrowsersCallback</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">browser</span><span class="p">)</span> <span class="p">{}</span>
+<span class="p">});</span>
+</pre></div>
+</li>
+<li><p><code>mobileBrowsersMode</code> (default: "customVar")</p></li>
+</ul><p>This option control the way to store the browser events in Google Analytics.</p>
+
+<ol>
+<li>"event"
+Will store the informations in "Events" with this organisation:
+Mobile Browser Kind &gt; view &gt; [browser name]</li>
+</ol><p>Where [browser name] will be: iOS Safari, iOS standalone, iOS UIWebView or iOS Chrome.</p>
+
+<ol>
+<li><p>"dimension"
+If you are using Universal Analytics, you can configure custom Dimensions. You can use 20 dimensions. The browser version is more a Dimension (context) than an event.
+You can provide the index you want to use.</p></li>
+<li><p>"customVar"
+This is for the old (actual in fact) Google Analytics (ga.js).
+You can use 5 custom variables. If you want to store the mobile version as a custom variable,</p></li>
+</ol><ul>
+<li><p><code>mobileBrowsersCustomVarIndex</code> (default: 1)
+Provide the customVar index you want to use if you have chosen the "customVar".</p></li>
+<li><p><code>mobileBrowsersDimensionIndex</code> (default: 1)
+Provide the dimension index you want to use if you have chosen the "dimension".</p></li>
+<li><p><code>mobileBrowsersCallback</code> (default: null)
+Once detected, you have access to a callback with the browser name passed in parameters. Probably you want to use this elsewhere.</p></li>
+</ul><h3>
+<a name="inactive-tab" class="anchor" href="#inactive-tab"><span class="octicon octicon-link"></span></a>Inactive Tab</h3>
+
+<p>Do you know a lot of users will open your page, navigate in an other tab for one or two minutes, and then be back on your page? To track how many times your page was put in background (inactive) you can activate the GACE option.</p>
+
+<ul>
+<li>
+<p>Activation:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">$</span><span class="p">.</span><span class="nx">gace</span><span class="p">({</span>
+    <span class="nx">ua</span><span class="o">:</span> <span class="s2">"UA-XXXXXXXX-X"</span><span class="p">,</span>
+    <span class="nx">domain</span><span class="o">:</span> <span class="s2">"example.com"</span><span class="p">,</span>
+
+    <span class="nx">inactiveTab</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+
+    <span class="c1">// Optional: </span>
+    <span class="nx">inactiveTabMax</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="nx">inactiveTabMinTime</span><span class="o">:</span> <span class="mi">3</span>
+<span class="p">});</span>
+</pre></div>
+</li>
+</ul><p>When the user <code>blur</code> the window, a counter will start in the background. When he will <code>focus</code> your page again, an event will be send to Google Analytics with this format:</p>
+
+<p>Activity &gt; inactive &gt; tab &gt; [time in seconds]</p>
+
+<p>Where [time in seconds] will be the time the page was in background.</p>
+
+<ul>
+<li><p><code>inactiveTabMax</code> (default: 10)
+This setting is use to track the maximum of inactive events per page you want to track.
+Imagine a visitor blur and focus your page 30 times in 2 minutes, you will have a lot of useless data in your analytics. Instead, you can control how many times in maximum the events will be send. It's 10 by default, you can ajust it with your needs.</p></li>
+<li><p><code>inactiveTabMinTime</code> (default: 3, in seconds)
+This settings control how much time the page has to be in background before sending an event. For example, if a visitor open your page, switch to Twitter, and get back on your page in less then the 3 seconds, this is not really an "inactive tab" since 3 seconds is very short. You can ajust what "is" an inactive tab for you. It can be 1 second, or 60 seconds, choose what fit for you.</p></li>
+<li><p><code>inactiveTabMaxTime</code> (default: null)
+Same as <code>inactiveTabMinTime</code>, default to "null" so we keep tracking everything. If you don't want to track inactive tab more than X seconds, put it here.</p></li>
+</ul><h2>
+<a name="outbound-links" class="anchor" href="#outbound-links"><span class="octicon octicon-link"></span></a>Outbound Links</h2>
+
+<p>In Google Analytics there is no way to know what externals or download links your visitor has clicked. If you have a download like a PDF or other, you can't track it. GACE provides a flexible way to track this events.</p>
+
+<ul>
+<li>
+<p>Activation:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">$</span><span class="p">.</span><span class="nx">gace</span><span class="p">({</span>
+    <span class="nx">ua</span><span class="o">:</span> <span class="s2">"UA-XXXXXXXX-X"</span><span class="p">,</span>
+    <span class="nx">domain</span><span class="o">:</span> <span class="s2">"example.com"</span><span class="p">,</span>
+
+    <span class="nx">outboundLinks</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+
+    <span class="c1">// Optional: </span>
+    <span class="nx">outboundLinksElements</span><span class="o">:</span> <span class="nx">$</span><span class="p">(</span><span class="s2">"a.ga-track"</span><span class="p">),</span>
+    <span class="nx">outboundLinksOnlyBlank</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nx">outboundLinksTimeout</span><span class="o">:</span> <span class="mi">200</span><span class="p">,</span>
+<span class="p">});</span>
+</pre></div>
+</li>
+<li><p><code>outboundLinksElements</code> (default: $("a") )
+By default, GACE will track every <a> with an external link (this.hostname !== document.location.hostname). If you want to track specific elements, just pass them to this option.</a></p></li>
+<li><p><code>outboundLinksOnlyBlank</code> (default: false)
+GACE will track all the external links, but you can specify if you just want to track links with target="_blank".</p></li>
+</ul><p>Why?</p>
+
+<p>Because links with no target="_blank" have to use a <code>setTimeout</code> to properly send the event to Google Analytics before changing the page.</p>
+
+<ul>
+<li>
+<code>outboundLinksTimeout</code> (default: 200, in milliseconds)
+This timeout can be configured with this option.</li>
+</ul><h2>
+<a name="social-tracking" class="anchor" href="#social-tracking"><span class="octicon octicon-link"></span></a>Social Tracking</h2>
+
+<p>This plugin integrates a simple tracker for Facebook and Twitter shares activity. It will load the Twitter and Facebook SDK so you just need to put your HTML but not load the Twitter and Facebook widget JavaScript.</p>
+
+<ul>
+<li>
+<p>Activation:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">$</span><span class="p">.</span><span class="nx">gace</span><span class="p">({</span>
+    <span class="nx">ua</span><span class="o">:</span> <span class="s2">"UA-XXXXXXXX-X"</span><span class="p">,</span>
+    <span class="nx">domain</span><span class="o">:</span> <span class="s2">"example.com"</span><span class="p">,</span>
+
+    <span class="nx">socialTracking</span><span class="o">:</span> <span class="p">[</span><span class="s2">"Facebook"</span><span class="p">,</span> <span class="s2">"Twitter"</span><span class="p">],</span>
+
+    <span class="c1">// Optional: </span>
+    <span class="nx">socialTrackingKind</span><span class="o">:</span> <span class="s2">"social"</span><span class="p">,</span>
+    <span class="nx">socialTrackingTime</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+
+    <span class="nx">fbAppId</span><span class="o">:</span> <span class="s2">"1234567"</span>
+<span class="p">});</span>
+</pre></div>
+</li>
+<li><p><code>socialTracking</code> (default: [], so it's desactivated)
+This is the Array of networks you want to track. Only Facebook and Twitter are supported for the moment.</p></li>
+<li><p><code>socialTrackingKind</code> (default: "social")
+Change the way social events are stored. Google Analytics have a special section Under: Traffic Source &gt; Social &gt; Plugins.
+By default, GACE uses <code>_trackSocial</code> and <code>ga('send', 'social')</code>.
+But you can track them as a classic Event, just change this option to "event".</p></li>
+<li><p><code>socialTrackingTime</code> (default: false)
+This will set a eventValue to each social events. It can be interesting to see when they share the page. Is it 2 seconds after the page is open? 2 minutes?
+If you activate this, your action name in the Plugin section will look like: "Tweet (24 sec)". That mean the visitor tweet the link 24 seconds after he was on the page.</p></li>
+</ul><h2>
+<a name="scroll-events-under-construction" class="anchor" href="#scroll-events-under-construction"><span class="octicon octicon-link"></span></a>Scroll Events (under construction)</h2>
+
+<p>This feature is for landing pages or content pages. You want to track if a user actually read your content. GACE will track two metrics: if the bloc id visible + how many times he stays on the bloc.</p>
+
+<p>bloc readed = scroll position (bloc visible) + time at this position.</p>
+
+<p>You configure every bloc in your HTML, this way:</p>
+
+<pre><code>&lt;div data-gace-bloc="feature3" data-gace-time="2"&gt;
+&lt;/div&gt;
+</code></pre>
+
+<ul>
+<li>
+<p>Activation:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">$</span><span class="p">.</span><span class="nx">gace</span><span class="p">({</span>
+    <span class="nx">ua</span><span class="o">:</span> <span class="s2">"UA-XXXXXXXX-X"</span><span class="p">,</span>
+    <span class="nx">domain</span><span class="o">:</span> <span class="s2">"example.com"</span><span class="p">,</span>
+
+    <span class="nx">scrollEvents</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">});</span>
+</pre></div>
+</li>
+<li><p><code>data-gace-bloc</code>
+Name of the bloc you want to track</p></li>
+<li><p><code>data-gace-time</code> (in seconds)
+The minimum time needed on the bloc to trigger the event.</p></li>
+</ul><p>When a bloc with <code>data-gace-bloc</code> is visible and the minimum time on the bloc is done, GACE will trigger an event:</p>
+
+<p>Read &gt; scroll &gt; [data-gace-bloc]</p>
+
+<h2>
+<a name="form-events-under-construction" class="anchor" href="#form-events-under-construction"><span class="octicon octicon-link"></span></a>Form events (under construction)</h2>
+
+<ul>
+<li>
+<p>Activation:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">$</span><span class="p">.</span><span class="nx">gace</span><span class="p">({</span>
+    <span class="nx">ua</span><span class="o">:</span> <span class="s2">"UA-XXXXXXXX-X"</span><span class="p">,</span>
+    <span class="nx">domain</span><span class="o">:</span> <span class="s2">"example.com"</span><span class="p">,</span>
+
+    <span class="nx">formEvents</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">});</span>
+</pre></div>
+</li>
+</ul><h2>
+<a name="structure" class="anchor" href="#structure"><span class="octicon octicon-link"></span></a>Structure</h2>
+
+<p>The basic structure of the project is given in the following way:</p>
+
+<pre><code>├── demo/
+│   └── index.html
+├── dist/
+│   ├── jquery.gace.js
+│   └── jquery.gace.min.js
+├── src/
+│   └── jquery.gace.js
+├── .gitignore
+├── .jshintrc
+├── .travis.yml
+├── Gruntfile.js
+└── package.json
+</code></pre>
+
+<h2>
+<a name="guides" class="anchor" href="#guides"><span class="octicon octicon-link"></span></a>Guides</h2>
+
+<h3>
+<a name="install-dependencies-for-development-only" class="anchor" href="#install-dependencies-for-development-only"><span class="octicon octicon-link"></span></a>Install Dependencies (for development only)</h3>
+
+<ol>
+<li>
+<p>Grunt</p>
+
+<pre lang="shell"><code>npm install -g grunt-cli
+</code></pre>
+</li>
+<li>
+<p>Packages</p>
+
+<pre lang="shell"><code>npm install
+</code></pre>
+</li>
+<li>
+<p>Build</p>
+
+<pre lang="shell"><code>grunt
+</code></pre>
+</li>
+</ol><h2>
+<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO</h2>
+
+<ul>
+<li>Scroll Events</li>
+<li>hitCallback for outboundLinks</li>
+<li>Trigger internal events to interact with the actions (pub/sub)</li>
+<li>Form Events</li>
+</ul><h2>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>Before sending a pull request remember to follow <a href="http://contribute.jquery.org/style-guide/js/">jQuery Core Style Guide</a>.</p>
+
+<ol>
+<li>Fork it!</li>
+<li>Create your feature branch: <code>git checkout -b my-new-feature</code>
+</li>
+<li>Make your changes on the <code>src</code> folder, never on the <code>dist</code> folder.</li>
+<li>Commit your changes: <code>git commit -m 'Add some feature'</code>
+</li>
+<li>Push to the branch: <code>git push origin my-new-feature</code>
+</li>
+<li>Submit a pull request</li>
+</ol><h2>
+<a name="history" class="anchor" href="#history"><span class="octicon octicon-link"></span></a>History</h2>
+
+<ul>
+<li>0.0.1: First version.</li>
+</ul><h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p><a href="http://zenorocha.mit-license.org/">MIT License</a></p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/damln">damln</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-44749947-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
