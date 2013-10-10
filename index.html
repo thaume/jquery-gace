@@ -84,27 +84,31 @@
 <span class="p">});</span>
 </pre></div>
 </li>
-<li><p><code>debug</code> (default: <code>false</code>)</p></li>
+<li><p><code>debug</code> <em>(default: <code>false</code>)</em></p></li>
 </ul><p>If <code>true</code>, no events will be send to Google Analytics. Instead, <code>console.log</code> will be call with the detail of the event. Very usefull for debugging.</p>
 
 <ul>
 <li>
-<code>kind</code> (default: <code>"ga"</code>, can be <code>"_gaq"</code>)</li>
+<code>kind</code> <em>(default: <code>"ga"</code>, can be <code>"_gaq"</code>)</em>
+</li>
 </ul><p>You can choose to send event with <code>ga()</code> (new Universal Analytics) or <code>_gaq.push</code> (classic Google Analytics). Both can coexist. But Google recommends to use the new Universal Analytics.</p>
 
 <ul>
 <li>
-<code>domain</code> (default: <code>window.location.hostname</code>)</li>
+<code>domain</code> <em>(default: <code>window.location.hostname</code>)</em>
+</li>
 </ul><p>the domain you want to track. You can put "none" for development (track localhost).</p>
 
 <ul>
 <li>
-<code>ua</code> (default: <code>null</code>)</li>
+<code>ua</code> <em>(default: <code>null</code>)</em>
+</li>
 </ul><p>Your Google Analytics profile identifier.</p>
 
 <ul>
 <li>
-<code>sendPageViewOnStart</code> (default: <code>true</code>)</li>
+<code>sendPageViewOnStart</code> <em>(default: <code>true</code>)</em>
+</li>
 </ul><p>It will create and send a pageview on plugin load.</p>
 
 <h3>
@@ -125,39 +129,40 @@
     <span class="c1">// Optional:</span>
     <span class="nx">mobileBrowsersMode</span><span class="o">:</span> <span class="s2">"customVar"</span>
     <span class="nx">mobileBrowsersCustomVarIndex</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nx">mobileBrowsersDimensionIndex</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="nx">mobileBrowsersCallback</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">browser</span><span class="p">)</span> <span class="p">{}</span>
+    <span class="nx">mobileBrowsersDimensionIndex</span><span class="o">:</span> <span class="mi">1</span>
 <span class="p">});</span>
 </pre></div>
 </li>
-<li><p><code>mobileBrowsersMode</code> (default: <code>"customVar"</code>)</p></li>
+<li><p><code>mobileBrowsersMode</code> <em>(default: <code>"customVar"</code>)</em></p></li>
 </ul><p>This option control the way to store the browser events in Google Analytics. You can use:</p>
 
 <ul>
-<li><em><code>event</code></em></li>
+<li><strong><code>"event"</code></strong></li>
 </ul><p>Will store the informations in "Events" with this organisation:
 Mobile Browser Kind &gt; view &gt; [browser name]</p>
 
 <p>Where [browser name] will be: iOS Safari, iOS standalone, iOS UIWebView or iOS Chrome.</p>
 
 <ul>
-<li><em><code>dimension</code></em></li>
+<li><strong><code>"dimension"</code></strong></li>
 </ul><p>If you are using Universal Analytics, you can configure custom Dimensions. You can use 20 dimensions. The browser version is more a Dimension (context) than an event.
 You can provide the index you want to use.</p>
 
 <ul>
-<li><em><code>customVar</code></em></li>
+<li><strong><code>"customVar"</code></strong></li>
 </ul><p>This is for the old (actual in fact) Google Analytics (<code>ga.js</code>).
 You can use 5 custom variables. If you want to store the mobile version as a custom variable,</p>
 
 <ul>
 <li>
-<code>mobileBrowsersCustomVarIndex</code> (default: <code>1</code>)</li>
+<code>mobileBrowsersCustomVarIndex</code> <em>(default: <code>1</code>)</em>
+</li>
 </ul><p>Provide the customVar index you want to use if you have chosen the "customVar".</p>
 
 <ul>
 <li>
-<code>mobileBrowsersDimensionIndex</code> (default: <code>1</code>)</li>
+<code>mobileBrowsersDimensionIndex</code> <em>(default: <code>1</code>)</em>
+</li>
 </ul><p>Provide the dimension index you want to use if you have chosen the "dimension".</p>
 
 <h3>
@@ -183,24 +188,27 @@ You can use 5 custom variables. If you want to store the mobile version as a cus
 </li>
 </ul><p>When the user <code>blur</code> the window, a counter will start in the background. When he will <code>focus</code> your page again, an event will be send to Google Analytics with this format:</p>
 
-<p>Activity &gt; inactive &gt; tab &gt; [time in seconds]</p>
+<p><strong>Activity &gt; inactive &gt; tab &gt; [time in seconds]</strong></p>
 
 <p>Where [time in seconds] will be the time the page was in background.</p>
 
 <ul>
 <li>
-<code>inactiveTabMax</code> (default: <code>10</code>)</li>
+<code>inactiveTabMax</code> <em>(default: <code>10</code>)</em>
+</li>
 </ul><p>This setting is use to track the maximum of inactive events per page you want to track.
 Imagine a visitor blur and focus your page 30 times in 2 minutes, you will have a lot of useless data in your analytics. Instead, you can control how many times in maximum the events will be send. It's 10 by default, you can adjust it with your needs.</p>
 
 <ul>
 <li>
-<code>inactiveTabMinTime</code> (default: <code>3</code>, in seconds)</li>
+<code>inactiveTabMinTime</code> <em>(default: <code>3</code>, in seconds)</em>
+</li>
 </ul><p>This settings control how much time the page has to be in background before sending an event. For example, if a visitor open your page, switch to Twitter, and get back on your page in less then the 3 seconds, this is not really an "inactive tab" since 3 seconds is very short. You can adjust what "is" an inactive tab for you. It can be 1 second, or 60 seconds, choose what fit for you.</p>
 
 <ul>
 <li>
-<code>inactiveTabMaxTime</code> (default: <code>null</code>, in seconds)</li>
+<code>inactiveTabMaxTime</code> <em>(default: <code>null</code>, in seconds)</em>
+</li>
 </ul><p>Same as <code>inactiveTabMinTime</code>, default to "null" so we keep tracking everything. If you don't want to track inactive tab more than X seconds, put it here.</p>
 
 <h3>
@@ -225,12 +233,13 @@ Imagine a visitor blur and focus your page 30 times in 2 minutes, you will have 
 <span class="p">});</span>
 </pre></div>
 </li>
-<li><p><code>outboundLinksElements</code> (default: <code>$("a")</code>)</p></li>
+<li><p><code>outboundLinksElements</code> <em>(default: <code>$("a")</code>)</em></p></li>
 </ul><p>By default, GACE will track every <code>&lt;a&gt;</code> with an external link (<code>this.hostname !== document.location.hostname</code>). If you want to track specific elements, just pass them to this option.</p>
 
 <ul>
 <li>
-<code>outboundLinksOnlyBlank</code> (default: <code>false</code>)</li>
+<code>outboundLinksOnlyBlank</code> <em>(default: <code>false</code>)</em>
+</li>
 </ul><p>GACE will track all the external links, but you can specify if you just want to track links with <code>target="_blank"</code>.</p>
 
 <p>Why?</p>
@@ -239,7 +248,8 @@ Imagine a visitor blur and focus your page 30 times in 2 minutes, you will have 
 
 <ul>
 <li>
-<code>outboundLinksTimeout</code> (default: <code>200</code>, in milliseconds)</li>
+<code>outboundLinksTimeout</code> <em>(default: <code>200</code>, in milliseconds)</em>
+</li>
 </ul><p>This timeout can be configured with this option.</p>
 
 <h3>
@@ -265,67 +275,23 @@ Imagine a visitor blur and focus your page 30 times in 2 minutes, you will have 
 <span class="p">});</span>
 </pre></div>
 </li>
-<li><p><code>socialTracking</code> (default: <code>[]</code>)</p></li>
+<li><p><code>socialTracking</code> <em>(default: <code>[]</code>)</em></p></li>
 </ul><p>This is the Array of networks you want to track. Only Facebook and Twitter are supported for the moment.</p>
 
 <ul>
 <li>
-<code>socialTrackingKind</code> (default: <code>"social"</code>)</li>
+<code>socialTrackingKind</code> <em>(default: <code>"social"</code>)</em>
+</li>
 </ul><p>Change the way social events are stored. Google Analytics have a special section Under: Traffic Source &gt; Social &gt; Plugins.
 By default, GACE uses <code>_trackSocial</code> and <code>ga('send', 'social')</code>.
 But you can track them as a classic Event, just change this option to "event".</p>
 
 <ul>
 <li>
-<code>socialTrackingTime</code> (default: <code>false</code>)</li>
+<code>socialTrackingTime</code> <em>(default: <code>false</code>)</em>
+</li>
 </ul><p>This will set a eventValue to each social events. It can be interesting to see when they share the page. Is it 2 seconds after the page is open? 2 minutes?
 If you activate this, your action name in the Plugin section will look like: "Tweet (24 sec)". That mean the visitor tweet the link 24 seconds after he was on the page.</p>
-
-<h3>
-<a name="scroll-events" class="anchor" href="#scroll-events"><span class="octicon octicon-link"></span></a>Scroll Events</h3>
-
-<p>This feature is for landing pages or content pages. You want to track if a user actually read your content. GACE will track two metrics: if the bloc id visible + how many times he stays on the bloc.</p>
-
-<p>bloc read = scroll position (bloc visible) + time at this position.</p>
-
-<p>You configure every bloc in your HTML, this way:</p>
-
-<pre><code>&lt;div data-gace-bloc="feature3" data-gace-time="2"&gt;
-&lt;/div&gt;
-</code></pre>
-
-<ul>
-<li>
-<p>Activation:</p>
-
-<div class="highlight highlight-javascript"><pre><span class="nx">$</span><span class="p">.</span><span class="nx">gace</span><span class="p">({</span>
-    <span class="nx">ua</span><span class="o">:</span> <span class="s2">"UA-XXXXXXXX-X"</span><span class="p">,</span>
-    <span class="nx">domain</span><span class="o">:</span> <span class="s2">"example.com"</span><span class="p">,</span>
-
-    <span class="nx">scrollEvents</span><span class="o">:</span> <span class="kc">true</span>
-<span class="p">});</span>
-</pre></div>
-</li>
-<li><p><code>data-gace-bloc</code> (choose a correct name, for example: <code>"pricing"</code>)</p></li>
-</ul><p>Name of the bloc you want to track</p>
-
-<ul>
-<li>
-<code>data-gace-time</code> (default: <code>1</code>, in seconds)</li>
-</ul><p>The minimum time needed on the bloc to trigger the event.</p>
-
-<ul>
-<li>
-<code>data-gace-view</code> (default: <code>100</code>, in percentage)</li>
-</ul><p>The percentage of the bloc visible on the page. By default, all the bloc has to be read (100%). But you can adjust it. If you want to trigger the event only when the user see 40% on the bloc, add:</p>
-
-<pre><code>&lt;div data-gace-bloc="feature3" data-gace-time="2" data-gace-view="40"&gt;
-&lt;/div&gt;
-</code></pre>
-
-<p>When a bloc with <code>data-gace-bloc</code> is visible and the minimum time on the bloc is done, GACE will trigger an event:</p>
-
-<p>Read &gt; scroll &gt; [data-gace-bloc]</p>
 
 <h3>
 <a name="form-events" class="anchor" href="#form-events"><span class="octicon octicon-link"></span></a>Form events</h3>
@@ -349,7 +315,90 @@ If you activate this, your action name in the Plugin section will look like: "Tw
 
 
     </li>
-</ul><h2>
+</ul><h3>
+<a name="scroll-events-todo" class="anchor" href="#scroll-events-todo"><span class="octicon octicon-link"></span></a>Scroll Events (TODO)</h3>
+
+<p>This feature is for landing pages or content pages. You want to track if a user actually read your content. GACE will track two metrics: if the bloc id visible + how many times he stays on the bloc.</p>
+
+<p>bloc read = scroll position (bloc visible) + time at this position.</p>
+
+<p>You configure every bloc in your HTML, this way:</p>
+
+<pre><code>&lt;div data-gace-bloc="feature3" data-gace-time="2"&gt;
+&lt;/div&gt;
+</code></pre>
+
+<ul>
+<li>
+<p>Activation:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">$</span><span class="p">.</span><span class="nx">gace</span><span class="p">({</span>
+    <span class="nx">ua</span><span class="o">:</span> <span class="s2">"UA-XXXXXXXX-X"</span><span class="p">,</span>
+    <span class="nx">domain</span><span class="o">:</span> <span class="s2">"example.com"</span><span class="p">,</span>
+
+    <span class="nx">scrollEvents</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">});</span>
+</pre></div>
+</li>
+<li><p><code>data-gace-bloc</code> <em>(choose a correct name, for example: <code>"pricing"</code>)</em></p></li>
+</ul><p>Name of the bloc you want to track</p>
+
+<ul>
+<li>
+<code>data-gace-time</code> <em>(default: <code>1</code>, in seconds)</em>
+</li>
+</ul><p>The minimum time needed on the bloc to trigger the event.</p>
+
+<ul>
+<li>
+<code>data-gace-view</code> <em>(default: <code>100</code>, in percentage)</em>
+</li>
+</ul><p>The percentage of the bloc visible on the page. By default, all the bloc has to be read (100%). But you can adjust it. If you want to trigger the event only when the user see 40% on the bloc, add:</p>
+
+<pre><code>&lt;div data-gace-bloc="feature3" data-gace-time="2" data-gace-view="40"&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>When a bloc with <code>data-gace-bloc</code> is visible and the minimum time on the bloc is done, GACE will trigger an event:</p>
+
+<p><strong>Read &gt; scroll &gt; [data-gace-bloc]</strong></p>
+
+<h3>
+<a name="dfp-ads-events-todo" class="anchor" href="#dfp-ads-events-todo"><span class="octicon octicon-link"></span></a>DFP Ads Events (TODO)</h3>
+
+<p>What if you can track if an ad from DFP has been viewed? Same concept as scroll events, with the ads. And what if you can track the clicks in your Google Analytics Event from your DFP ads?</p>
+
+<ul>
+<li>
+<p>Activation:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">$</span><span class="p">.</span><span class="nx">gace</span><span class="p">({</span>
+    <span class="nx">ua</span><span class="o">:</span> <span class="s2">"UA-XXXXXXXX-X"</span><span class="p">,</span>
+    <span class="nx">domain</span><span class="o">:</span> <span class="s2">"example.com"</span><span class="p">,</span>
+
+    <span class="nx">dfpScrollEvents</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nx">dfpClicksEvents</span><span class="o">:</span> <span class="kc">true</span>
+<span class="p">});</span>
+</pre></div>
+</li>
+<li><p><code>dfpClicksEvents</code> <em>(default: <code>false</code>)</em></p></li>
+</ul><p>Detect the clicks on your DFP ads.</p>
+
+<p>GACE will trigger an event:</p>
+
+<p><strong>DFP &gt; click &gt; [ad identifier]</strong></p>
+
+<ul>
+<li>
+<code>dfpScrollEvents</code> <em>(default: <code>false</code>)</em>
+</li>
+</ul><p>Detect if an ad as been viewed (scroll + minimum time)</p>
+
+<p>GACE will trigger an event:</p>
+
+<p><strong>DFP &gt; view &gt; [ad identifier]</strong></p>
+
+<h2>
 <a name="structure" class="anchor" href="#structure"><span class="octicon octicon-link"></span></a>Structure</h2>
 
 <p>The basic structure of the project is given in the following way:</p>
@@ -397,12 +446,14 @@ If you activate this, your action name in the Plugin section will look like: "Tw
 <a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO</h2>
 
 <ul>
+<li>DFP Events</li>
 <li>Scroll Events</li>
 <li>hitCallback for outboundLinks</li>
-<li>Trigger internal events to interact with the actions (pub/sub)</li>
-<li>Form Events</li>
+<li>hitCallback for form submit</li>
 </ul><h2>
 <a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<p>Hey! All features are not implemented, please add an issue or a comment if you really need that features. That could drive the development. Thanks</p>
 
 <p>Before sending a pull request remember to follow <a href="http://contribute.jquery.org/style-guide/js/">jQuery Core Style Guide</a>.</p>
 
