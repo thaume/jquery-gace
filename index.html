@@ -1,33 +1,36 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Jquery GACE (Google Analytics Custom Events) by damln</title>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Jquery GACE (Google Analytics Custom Events) : Start tracking the right things." />
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Jquery GACE (Google Analytics Custom Events)</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Jquery GACE (Google Analytics Custom Events)</h1>
-        <p>Start tracking the right things.</p>
 
-        <p class="view"><a href="https://github.com/damln/jquery-gace">View the Project on GitHub <small>damln/jquery-gace</small></a></p>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/damln/jquery-gace">View on GitHub</a>
 
+          <h1 id="project_title">Jquery GACE (Google Analytics Custom Events)</h1>
+          <h2 id="project_tagline">Start tracking the right things.</h2>
 
-        <ul>
-          <li><a href="https://github.com/damln/jquery-gace/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/damln/jquery-gace/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/damln/jquery-gace">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/damln/jquery-gace/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/damln/jquery-gace/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h1>
 <a name="jquery-google-analytics-custom-events" class="anchor" href="#jquery-google-analytics-custom-events"><span class="octicon octicon-link"></span></a>jQuery Google Analytics Custom Events</h1>
 
@@ -116,19 +119,23 @@ It will create and send a pageview on plugin load.</p>
 </ul><p>This option control the way to store the browser events in Google Analytics.</p>
 
 <ol>
-<li>"event"
-Will store the informations in "Events" with this organisation:
-Mobile Browser Kind &gt; view &gt; [browser name]</li>
-</ol><p>Where [browser name] will be: iOS Safari, iOS standalone, iOS UIWebView or iOS Chrome.</p>
+<li><code>"event"</code></li>
+</ol><p>Will store the informations in "Events" with this organisation:
+Mobile Browser Kind &gt; view &gt; [browser name]</p>
+
+<p>Where [browser name] will be: iOS Safari, iOS standalone, iOS UIWebView or iOS Chrome.</p>
 
 <ol>
-<li><p>"dimension"
-If you are using Universal Analytics, you can configure custom Dimensions. You can use 20 dimensions. The browser version is more a Dimension (context) than an event.
-You can provide the index you want to use.</p></li>
-<li><p>"customVar"
-This is for the old (actual in fact) Google Analytics (ga.js).
-You can use 5 custom variables. If you want to store the mobile version as a custom variable,</p></li>
-</ol><ul>
+<li><code>"dimension"</code></li>
+</ol><p>If you are using Universal Analytics, you can configure custom Dimensions. You can use 20 dimensions. The browser version is more a Dimension (context) than an event.
+You can provide the index you want to use.</p>
+
+<ol>
+<li><code>"customVar"</code></li>
+</ol><p>This is for the old (actual in fact) Google Analytics (ga.js).
+You can use 5 custom variables. If you want to store the mobile version as a custom variable,</p>
+
+<ul>
 <li><p><code>mobileBrowsersCustomVarIndex</code> (default: 1)
 Provide the customVar index you want to use if you have chosen the "customVar".</p></li>
 <li><p><code>mobileBrowsersDimensionIndex</code> (default: 1)
@@ -361,12 +368,16 @@ The minimum time needed on the bloc to trigger the event.</p></li>
 
 <p><a href="http://zenorocha.mit-license.org/">MIT License</a></p>
       </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/damln">damln</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Jquery GACE (Google Analytics Custom Events) maintained by <a href="https://github.com/damln">damln</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -377,6 +388,7 @@ The minimum time needed on the bloc to trigger the event.</p></li>
             pageTracker._trackPageview();
             } catch(err) {}
           </script>
+
 
   </body>
 </html>
