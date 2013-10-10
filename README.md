@@ -83,8 +83,7 @@ Today, Google Analytics can display if the browser is Safari (browser or in-app)
 		// Optional:
 		mobileBrowsersMode: "customVar"
 		mobileBrowsersCustomVarIndex: 1,
-		mobileBrowsersDimensionIndex: 1,
-		mobileBrowsersCallback: function(browser) {}
+		mobileBrowsersDimensionIndex: 1
 	});
 	```
 
