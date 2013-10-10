@@ -6,8 +6,19 @@
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 
+
 		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
-		<link rel="stylesheet" href="screen.css">
+		<link type="text/css" rel="stylesheet" href="//cdn.jsdelivr.net/validation.engine/2.6.2/css/validationEngine.jquery.css" />
+
+		<style>
+			body {
+			    padding: 1em;
+			}
+			.bloc {
+			    height: 400px;
+			    border-bottom: 2px solid #000;
+			}
+		</style>
 
 	</head>
 
@@ -20,18 +31,25 @@
 			<a href="http://google.fr">External</a>
 			<a href="http://google.fr" target="_blank">External Blank</a>
 
+			<form id="validationEngine" method="post" action="" class="form col-md-4">
+				<input type="text" placeHolder="Use validation Engine" name="email" class="form-control validate[required,minSize[5]]">
+				<input type="submit" class="btn btn-primary" data-gace-submit>
+			</form>
+
 			<form method="post" action="" class="form col-md-4">
 				<input type="text" name="email" class="form-control">
-				<input type="submit" class="btn btn-primary">
+				<input type="submit" class="btn btn-primary" data-gace-submit>
 			</form>
+
 		</div>
 
-		<div class="bloc" data-gace-bloc="feature1" data-gace-time="4"></div>
-		<div class="bloc" data-gace-bloc="feature2" data-gace-time="6">
+		<div class="bloc" data-gace-bloc="feature1" data-gace-time="2"></div>
+
+		<div class="bloc" data-gace-bloc="feature2" data-gace-time="1">
 			<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="The pixel width of the plugin" data-height="The pixel height of the plugin" data-colorscheme="light" data-layout="button_count" data-action="like" data-show-faces="false" data-send="true"></div>
 
 		</div>
-		<div class="bloc" data-gace-bloc="feature3" data-gace-time="8">
+		<div class="bloc" data-gace-bloc="feature3" data-gace-time="3" data-gace-view="80">
 <a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
 
 		</div>
@@ -41,13 +59,21 @@
 		</div>
 
 		<!-- plugins -->
-		<script src="jquery.min.js"></script>
+
+		<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+
+		<script type="text/javascript" src="//cdn.jsdelivr.net/validation.engine/2.6.2/jquery.validationEngine.js"></script>
+		<script type="text/javascript" src="//cdn.jsdelivr.net/validation.engine/2.6.2/languages/jquery.validationEngine-en.js"></script>
+
 		<script src="../src/jquery.gace.js"></script>
 
 		<script>
 		window.navigator.standalone = true;
 
 			$(function() {
+
+				$("#validationEngine").validationEngine();
+
 
 				$.gace({
 					debug: true,

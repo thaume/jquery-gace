@@ -1,31 +1,45 @@
 /*
-	Debounce function
-	https://github.com/diaspora/jquery-debounce/blob/master/src/jquery-debounce.js
+
+	Documentation:
+	http://damln.github.io/jquery-gace/
+
+
+	Github project:
+	https://github.com/damln/jquery-gace
+
+
+	Damian Le Nouaille:
+	http://www.damln.com
+	http://geeksters.co
+
 */
 
-(function($) {
-  function debounce(callback, delay) {
-    var self = this, timeout, _arguments;
-    return function() {
-      _arguments = Array.prototype.slice.call(arguments, 0),
-      timeout = clearTimeout(timeout, _arguments),
-      timeout = setTimeout(function() {
-        callback.apply(self, _arguments);
-        timeout = 0;
-      }, delay);
-
-      return this;
-    };
-  }
-
-  $.extend($.fn, {
-    debounce: function(event, callback, delay) {
-      this.bind(event, debounce.apply(this, [callback, delay]));
-    }
-  });
-})(jQuery);
-
 ;(function ( $, window, document, undefined ) {
+
+	/*
+		Debounce function
+		https://github.com/diaspora/jquery-debounce/blob/master/src/jquery-debounce.js
+	*/
+	function debounce(callback, delay) {
+		var self = this, timeout, _arguments;
+		return function() {
+			_arguments = Array.prototype.slice.call(arguments, 0),
+			timeout = clearTimeout(timeout, _arguments),
+			timeout = setTimeout(function() {
+				callback.apply(self, _arguments);
+				timeout = 0;
+			}, delay);
+
+			return this;
+		};
+	}
+
+	$.extend($.fn, {
+		debounce: function(event, callback, delay) {
+			this.bind(event, debounce.apply(this, [callback, delay]));
+		}
+	});
+
 	var
 	pluginName,
 	loadGoogleAnalyticsLegacy,
@@ -63,11 +77,11 @@
 		mobileBrowsersMode: "customVar",
 		mobileBrowsersCustomVarIndex: 1,
 		mobileBrowsersDimensionIndex: 1,
-		mobileBrowsersCallback: null,
 
 		// $("a.out") or other jQuery selector, can be null
 		outboundLinksElements: null,
 		outboundLinksOnlyBlank: false,
+		// in milliseconds
 		outboundLinksTimeout: 200,
 
 		// in seconds:
@@ -77,7 +91,7 @@
 		// in seconds, can be null:
 		inactiveTabMaxTime: null,
 
-		// or "event"
+		// can be "event", or "social"
 		socialTrackingKind: "social",
 		socialTrackingTime: false,
 		fbAppId: "134030676692228"
@@ -176,7 +190,6 @@
 				loadGoogleAnalyticsObject();
 			}
 
-
 			// Create the GA object if not debug mode
 			if ( !self.settings.debug ) {
 				if ( self.settings.kind === "ga" ) {
@@ -249,7 +262,7 @@
 		*/
 
 		mobileBrowsers: function () {
-			var browser, opts, cb, self;
+			var browser, self;
 			self = this;
 
 			browser = self._getMobileBrowsers();
@@ -268,17 +281,7 @@
 
 			// With Event mode
 			if ( self.settings.mobileBrowsersMode === "event" ) {
-				opts = {};
-
-				// Configure the callback
-				if ( self.settings.mobileBrowsersCallback ) {
-					cb = function() {
-						self.settings.mobileBrowsersCallback( browser );
-					};
-					opts.hitCallback = cb;
-				}
-
-				self._sendEvent( "Mobile Browser Kind", "view", browser, null, opts );
+				self._sendEvent( "Mobile Browser Kind", "view", browser, null );
 			}
 
 			// With Dimension mode ( only ga() )
@@ -305,35 +308,51 @@
 		*/
 
 		scrollEvents: function () {
-			var $elements, self, windowHeight;
+			var $elements, self, windowHeight, scrollTop;
 			self = this;
 
 			self.scrollEventsElements = {};
 			self.scrollEventsRecord = {};
 
-			windowHeight = $(window).height();
+			windowHeight = $( window ).height();
 			$elements = $( "[data-gace-bloc]" );
 
 			// Get elements configuration
 			$elements.each(function( i, el ) {
-				var $el, blocName;
+				var $el, blocName, ref, percent;
 
 				$el = $( el );
 				blocName = $el.attr( "data-gace-bloc" );
 
-				self.scrollEventsRecord[blocName] = {};
+				percent = parseInt( $el.attr( "data-gace-view"), 10 );
+				percent = percent || 100;
 
+				self.scrollEventsRecord[blocName] = {};
 				self.scrollEventsElements[blocName] = {};
-				self.scrollEventsElements[blocName].height = $el.height();
-				self.scrollEventsElements[blocName].offset = $el.offset().top;
-				self.scrollEventsElements[blocName].time = parseInt( $el.attr( "data-gace-time"), 10 );
+
+				// shortcut to var ref
+				ref = self.scrollEventsElements[blocName];
+
+				ref.height = $el.height();
+				ref.offset = $el.offset().top;
+				ref.bottom = ref.height + ref.offset;
+				ref.time = parseInt( $el.attr( "data-gace-time"), 10 ) || 1;
+				ref.percent = percent;
 			});
 
-			// Use debounce to not oversend events
-			var scrollTop;
-			$( window ).debounce( "scroll", function() {
+			// console.table( self.scrollEventsElements );
+
+			var scrollWindow = function () {
+
+				// Scroll top is the pixels scrolls by viitor
 				scrollTop = $( document ).scrollTop();
-			}, 200 );
+			};
+
+			// call it once, there are probably elements visibles.
+			scrollWindow();
+
+			// Then, Use debounce to not oversend events and attach event
+			$( window ).debounce( "scroll", scrollWindow, 200 );
 		},
 
 		/*
@@ -364,7 +383,7 @@
 					loadTwitter();
 
 					twttr.ready(function() {
-						twttr.events.bind("tweet", function ( intentEvent ) {
+						twttr.events.bind( "tweet" , function ( intentEvent ) {
 							if ( !intentEvent ) {
 								return null;
 							}
@@ -379,14 +398,14 @@
 
 
 					// Override fbAsyncInit ? I Don't know ... Do you have a better solution?
-					window.fbAsyncInit = function() {
+					window.fbAsyncInit = function () {
 						FB.init({appId: self.settings.fbAppId, status: true, cookie: true});
 
 						try {
 						    if ( FB && FB.Event && FB.Event.subscribe ) {
-								FB.Event.subscribe("edge.create", function ( response ) {
+								FB.Event.subscribe( "edge.create", function ( response ) {
 
-								    if ( response.indexOf("facebook.com") > 0 ) {
+								    if ( response.indexOf( "facebook.com" ) > 0 ) {
 								      sendEvent( "Facebook", "Like", response );
 								    } else {
 								      sendEvent( "Facebook", "Share", response );
@@ -394,11 +413,11 @@
 
 								});
 
-								FB.Event.subscribe("edge.remove", function ( response ) {
+								FB.Event.subscribe( "edge.remove", function ( response ) {
 									sendEvent( "Facebook", "Unlike", response );
 								});
 
-								FB.Event.subscribe("message.send", function ( response ){
+								FB.Event.subscribe( "message.send", function ( response ){
 									sendEvent( "Facebook", "Send", response );
 								});
 						    }
@@ -427,7 +446,7 @@
 			if ( self.settings.outboundLinksElements !== null ) {
 				$elements = self.settings.outboundLinksElements;
 			} else {
-				$elements = $("a").filter(function () {
+				$elements = $( "a" ).filter(function () {
 					return this.hostname && this.hostname !== document.location.hostname;
 				});
 			}
@@ -473,10 +492,11 @@
 				// Can be disable in the settings, disable by default.
 				if ( !newtab && !self.settings.outboundLinksOnlyBlank ) {
 					e.preventDefault();
-					setTimeout( "document.location.href = '"+ href + "'", self.settings.outboundLinksTimeout );
+					setTimeout( "document.location.href = '"+ href + "';", self.settings.outboundLinksTimeout );
 				}
 			};
 
+			// Attach event
 			$elements.on( "click", click );
 		},
 
@@ -547,12 +567,57 @@
 		},
 
 		/*
-			@TODO
 			Track event on form submitions
+			Use jQuery Validation Engine plugin for usage
 		*/
 
 		formEvents: function () {
+			var self, $submits;
+			self = this;
+			$submits = $(" [data-gace-submit] ");
 
+			$submits.each(function( i, submit ) {
+				var $el, $form, onFormSubmit, identifier;
+				$el = $( submit );
+				$form = $el.parents(" form ").first();
+
+				// Check validation engine exist
+				identifier = $form[0].id || "form";
+
+				if ( $.isFunction( $form.validationEngine ) ) {
+
+					onFormSubmit = function ( e ) {
+						e.preventDefault();
+						var isValid = $form.validationEngine( "validate" );
+
+						if ( isValid ) {
+							self._sendEvent( "Form", "valid", identifier );
+
+							// TODO: use hitCallback, no setTimeout
+							// after 1 second, submit the form
+							setTimeout(function () {
+								$form.submit();
+							}, 500 );
+						} else {
+							self._sendEvent( "Form", "not valid", identifier );
+						}
+					};
+
+				// Just track the submission, no Validation Engine detected
+				} else {
+					onFormSubmit = function ( e ) {
+						e.preventDefault();
+
+						self._sendEvent( "Form", "valid", identifier );
+						// TODO: use hitCallback, no setTimeout
+						setTimeout(function () {
+							$form.submit();
+						}, 500 );
+					};
+				}
+
+				$el.click( onFormSubmit );
+			});
 		},
 
 		// Public interface to send events
