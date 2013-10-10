@@ -162,6 +162,7 @@
 	function Plugin ( options ) {
 		this.settings = $.extend( {}, defaults, options );
 		this.counter = 0;
+		this.body = $("body");
 		this.init();
 		return this;
 	}
@@ -724,10 +725,14 @@
 			var params, list, self;
 			self = this;
 
+
 			if ( typeof eventValue === "undefined" ) {
 				// Send the seconds
 				eventValue = Math.round( self.counter );
 			}
+
+			// Trigger "doing" event, befire anything
+			self._trigger( "doing", [ eventCategory, eventAction, eventLabel, eventValue ] );
 
 			// For Universal
 			if ( self.settings.kind === "ga" ) {
@@ -741,17 +746,21 @@
 				params.eventLabel = eventLabel;
 				params.eventValue = eventValue;
 
+				// Events triger when done:
+				params.hitCallback = function () {
+					self._trigger( "done", [ eventCategory, eventAction, eventLabel, eventValue ] );
+				};
+
 				if ( opts && opts.opt_noninteraction ) {
 					params.nonInteraction = opts.opt_noninteraction;
-				}
-
-				if ( opts && opts.hitCallback ) {
-					params.hitCallback = opts.hitCallback;
 				}
 
 				if ( self.settings.debug ) {
 					console.log( "GACE: event ga()" );
 					console.log( params );
+
+					// Simulate hitCallback
+					params.hitCallback();
 				} else {
 					ga( "send", params );
 				}
@@ -774,6 +783,40 @@
 					_gaq.push( list );
 				}
 			}
+		},
+
+		/*
+			Trigger events, usable from the outside.
+			Two kind: "doing" or "done"
+		*/
+
+		_trigger: function ( kind, params) {
+				var
+				self,
+				identifierCategory, identifierAction, identifierLabel,
+				eventCategory, eventAction, eventLabel, eventValue;
+
+				eventCategory = params[0];
+				eventAction = params[1];
+				eventLabel = params[2];
+				eventValue = params[3];
+
+				self = this;
+				kind = "ga_" + kind;
+				identifierCategory = eventCategory.replace(" ", "_");
+				identifierAction = eventAction.replace(" ", "_");
+				identifierLabel = eventLabel.replace(" ", "_");
+
+				self.body.trigger( kind + ":category:" + identifierCategory,
+				                  [ eventCategory, eventAction, eventLabel, eventValue ] );
+				self.body.trigger( kind + ":action:" + identifierAction,
+				                  [ eventCategory, eventAction, eventLabel, eventValue ] );
+				self.body.trigger( kind + ":label:" + identifierLabel,
+				                  [ eventCategory, eventAction, eventLabel, eventValue ] );
+				self.body.trigger( kind + ":category:" + identifierCategory + ":" + identifierAction,
+				                  [ eventCategory, eventAction, eventLabel, eventValue ] );
+				self.body.trigger( kind + ":category:" + identifierCategory + ":" + identifierAction + ":" + identifierLabel,
+				                  [ eventCategory, eventAction, eventLabel, eventValue ] );
 		}
 	};
 

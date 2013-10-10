@@ -76,7 +76,7 @@
 
 
 				$.gace({
-					debug: true,
+					// debug: true,
 					kind: "ga",
 					// kind: "_gaq",
 					ua: "UA-32768086-2",
@@ -90,6 +90,46 @@
 					formEvents: true,
 
 					socialTracking: ["Twitter"],
+				});
+
+				// You can listen events
+				// pattern: "ga_event:category:[category name]"
+				$("body").on("ga_done:category:Form", function ( eventObj, category, action, label, value ) {
+
+				});
+
+				// by action
+				// pattern: "ga_event:action:[action name]"
+				$("body").on("ga_done:action:inactive", function ( eventObj, category, action, label, value ) {
+
+				});
+
+				// by label
+				// pattern: "ga_event:label:[label name]"
+				$("body").on("ga_done:label:tab", function ( eventObj, category, action, label, value ) {
+
+				});
+
+				// by category + action
+				// pattern: "ga_event:category:[category name]:[action name]"
+				$("body").on("ga_done:category:Form:not_valid", function () {
+
+				});
+
+				// by category + action + label
+				// pattern: "ga_event:category:[category name]:[action name]:[label name]"
+				$("body").on("ga_done:category:Activity:inactive:tab", function () {
+
+				});
+
+				$("body").on("ga_doing:category:Form", function ( eventObj, category, action, label, value ) {
+					console.log("doing");
+					console.log(arguments);
+				});
+
+				$("body").on("ga_done:category:Form", function ( eventObj, category, action, label, value ) {
+					console.log("done");
+					console.log(arguments);
 				});
 
 			});
