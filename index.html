@@ -59,24 +59,18 @@
 <span class="p">});</span>
 </pre></div>
 </li>
-</ol><h2>
+</ol><p><strong>Note</strong>
+You don't need to load the Google Analytics JavaScript (<code>ga.js</code> or <code>analytics.js</code>) since GACE will load it for you.</p>
+
+<h2>
 <a name="features-and-options" class="anchor" href="#features-and-options"><span class="octicon octicon-link"></span></a>Features and Options</h2>
 
 <h3>
 <a name="first-configuration" class="anchor" href="#first-configuration"><span class="octicon octicon-link"></span></a>First configuration</h3>
 
 <ul>
-<li><p><code>debug</code> (default: false)
-If true, no events will be send to Google Analytics. Instead, console.log will be call with the detail of the event. Very usefull for debugging.</p></li>
-<li><p><code>kind</code> (default: "ga", can be "_gaq")
-You can choose to send event with <code>ga()</code> (new Universal Analytics) or <code>_gaq.push</code> (classic Google Analytics). Both can coexist. But Google recommends to use the new Universal Analytics.</p></li>
-<li><p><code>domain</code> (default: window.location.hostname)
-the domain you want to track. You can put "none" for development.</p></li>
-<li><p><code>ua</code> (default: UA-XXXXXXXX-X)
-Your Google Analytics profile identifier.</p></li>
 <li>
-<p><code>sendPageViewOnStart</code> (default: true)
-It will create and send a pageview on plugin load.</p>
+<p>Activation:</p>
 
 <div class="highlight highlight-javascript"><pre><span class="nx">jQuery</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">$</span><span class="p">.</span><span class="nx">gace</span><span class="p">({</span>
@@ -89,6 +83,16 @@ It will create and send a pageview on plugin load.</p>
 <span class="p">});</span>
 </pre></div>
 </li>
+<li><p><code>debug</code> (default: <code>false</code>)
+If <code>true</code>, no events will be send to Google Analytics. Instead, <code>console.log</code> will be call with the detail of the event. Very usefull for debugging.</p></li>
+<li><p><code>kind</code> (default: "ga", can be "_gaq")
+You can choose to send event with <code>ga()</code> (new Universal Analytics) or <code>_gaq.push</code> (classic Google Analytics). Both can coexist. But Google recommends to use the new Universal Analytics.</p></li>
+<li><p><code>domain</code> (default: window.location.hostname)
+the domain you want to track. You can put "none" for development (track localhost).</p></li>
+<li><p><code>ua</code> (default: UA-XXXXXXXX-X)
+Your Google Analytics profile identifier.</p></li>
+<li><p><code>sendPageViewOnStart</code> (default: true)
+It will create and send a pageview on plugin load.</p></li>
 </ul><h3>
 <a name="better-mobile-browser-detection" class="anchor" href="#better-mobile-browser-detection"><span class="octicon octicon-link"></span></a>Better Mobile Browser detection</h3>
 
@@ -113,23 +117,26 @@ It will create and send a pageview on plugin load.</p>
 </pre></div>
 </li>
 <li><p><code>mobileBrowsersMode</code> (default: "customVar")</p></li>
-</ul><p>This option control the way to store the browser events in Google Analytics.</p>
+</ul><p>This option control the way to store the browser events in Google Analytics. You can use:</p>
 
-<ol>
-<li><code>"event"</code></li>
-</ol><p>Will store the informations in "Events" with this organisation:
+<pre><code>- `"event"`
+</code></pre>
+
+<p>Will store the informations in "Events" with this organisation:
 Mobile Browser Kind &gt; view &gt; [browser name]</p>
 
 <p>Where [browser name] will be: iOS Safari, iOS standalone, iOS UIWebView or iOS Chrome.</p>
 
-<ol>
-<li><code>"dimension"</code></li>
-</ol><p>If you are using Universal Analytics, you can configure custom Dimensions. You can use 20 dimensions. The browser version is more a Dimension (context) than an event.
+<pre><code>- `"dimension"`
+</code></pre>
+
+<p>If you are using Universal Analytics, you can configure custom Dimensions. You can use 20 dimensions. The browser version is more a Dimension (context) than an event.
 You can provide the index you want to use.</p>
 
-<ol>
-<li><code>"customVar"</code></li>
-</ol><p>This is for the old (actual in fact) Google Analytics (ga.js).
+<pre><code>- `"customVar"`
+</code></pre>
+
+<p>This is for the old (actual in fact) Google Analytics (ga.js).
 You can use 5 custom variables. If you want to store the mobile version as a custom variable,</p>
 
 <ul>
@@ -169,9 +176,9 @@ Once detected, you have access to a callback with the browser name passed in par
 <ul>
 <li><p><code>inactiveTabMax</code> (default: 10)
 This setting is use to track the maximum of inactive events per page you want to track.
-Imagine a visitor blur and focus your page 30 times in 2 minutes, you will have a lot of useless data in your analytics. Instead, you can control how many times in maximum the events will be send. It's 10 by default, you can ajust it with your needs.</p></li>
+Imagine a visitor blur and focus your page 30 times in 2 minutes, you will have a lot of useless data in your analytics. Instead, you can control how many times in maximum the events will be send. It's 10 by default, you can adjust it with your needs.</p></li>
 <li><p><code>inactiveTabMinTime</code> (default: 3, in seconds)
-This settings control how much time the page has to be in background before sending an event. For example, if a visitor open your page, switch to Twitter, and get back on your page in less then the 3 seconds, this is not really an "inactive tab" since 3 seconds is very short. You can ajust what "is" an inactive tab for you. It can be 1 second, or 60 seconds, choose what fit for you.</p></li>
+This settings control how much time the page has to be in background before sending an event. For example, if a visitor open your page, switch to Twitter, and get back on your page in less then the 3 seconds, this is not really an "inactive tab" since 3 seconds is very short. You can adjust what "is" an inactive tab for you. It can be 1 second, or 60 seconds, choose what fit for you.</p></li>
 <li><p><code>inactiveTabMaxTime</code> (default: null)
 Same as <code>inactiveTabMinTime</code>, default to "null" so we keep tracking everything. If you don't want to track inactive tab more than X seconds, put it here.</p></li>
 </ul><h2>
@@ -197,12 +204,12 @@ Same as <code>inactiveTabMinTime</code>, default to "null" so we keep tracking e
 </pre></div>
 </li>
 <li><p><code>outboundLinksElements</code> (default: $("a") )
-By default, GACE will track every <a> with an external link (this.hostname !== document.location.hostname). If you want to track specific elements, just pass them to this option.</a></p></li>
+By default, GACE will track every <a> with an external link (<code>this.hostname !== document.location.hostname</code>). If you want to track specific elements, just pass them to this option.</a></p></li>
 <li><p><code>outboundLinksOnlyBlank</code> (default: false)
-GACE will track all the external links, but you can specify if you just want to track links with target="_blank".</p></li>
+GACE will track all the external links, but you can specify if you just want to track links with <code>target="_blank"</code>.</p></li>
 </ul><p>Why?</p>
 
-<p>Because links with no target="_blank" have to use a <code>setTimeout</code> to properly send the event to Google Analytics before changing the page.</p>
+<p>Because links with no <code>target="_blank"</code> have to use a <code>setTimeout</code> to properly send the event to Google Analytics before changing the page.</p>
 
 <ul>
 <li>
@@ -231,7 +238,7 @@ This timeout can be configured with this option.</li>
 <span class="p">});</span>
 </pre></div>
 </li>
-<li><p><code>socialTracking</code> (default: [], so it's desactivated)
+<li><p><code>socialTracking</code> (default: [], so it's deactivated)
 This is the Array of networks you want to track. Only Facebook and Twitter are supported for the moment.</p></li>
 <li><p><code>socialTrackingKind</code> (default: "social")
 Change the way social events are stored. Google Analytics have a special section Under: Traffic Source &gt; Social &gt; Plugins.
@@ -241,11 +248,11 @@ But you can track them as a classic Event, just change this option to "event".</
 This will set a eventValue to each social events. It can be interesting to see when they share the page. Is it 2 seconds after the page is open? 2 minutes?
 If you activate this, your action name in the Plugin section will look like: "Tweet (24 sec)". That mean the visitor tweet the link 24 seconds after he was on the page.</p></li>
 </ul><h2>
-<a name="scroll-events-under-construction" class="anchor" href="#scroll-events-under-construction"><span class="octicon octicon-link"></span></a>Scroll Events (under construction)</h2>
+<a name="scroll-events" class="anchor" href="#scroll-events"><span class="octicon octicon-link"></span></a>Scroll Events</h2>
 
 <p>This feature is for landing pages or content pages. You want to track if a user actually read your content. GACE will track two metrics: if the bloc id visible + how many times he stays on the bloc.</p>
 
-<p>bloc readed = scroll position (bloc visible) + time at this position.</p>
+<p>bloc read = scroll position (bloc visible) + time at this position.</p>
 
 <p>You configure every bloc in your HTML, this way:</p>
 
@@ -269,12 +276,21 @@ If you activate this, your action name in the Plugin section will look like: "Tw
 Name of the bloc you want to track</p></li>
 <li><p><code>data-gace-time</code> (in seconds)
 The minimum time needed on the bloc to trigger the event.</p></li>
+<li>
+<p><code>data-gace-view</code> (default: 100)
+The percentage of the bloc visible on the page. By default, all the bloc has to be read (100%). But you can adjust it. If you want to trigger the event only when the user see 40% on the bloc, add:</p>
+
+<div>
+</div>
+</li>
 </ul><p>When a bloc with <code>data-gace-bloc</code> is visible and the minimum time on the bloc is done, GACE will trigger an event:</p>
 
 <p>Read &gt; scroll &gt; [data-gace-bloc]</p>
 
 <h2>
 <a name="form-events-under-construction" class="anchor" href="#form-events-under-construction"><span class="octicon octicon-link"></span></a>Form events (under construction)</h2>
+
+<p>GACE is compatible with <a href="https://github.com/posabsolute/jQuery-Validation-Engine">jQuery Validation Engine</a>. If you use this plugin on a <code>form</code>, you can detect when a visitor submit a form with errors. And when he submit the form without errors. It's interesting to see the proportion of users trying to send something and users that really send something.</p>
 
 <ul>
 <li>
@@ -288,6 +304,11 @@ The minimum time needed on the bloc to trigger the event.</p></li>
 <span class="p">});</span>
 </pre></div>
 </li>
+<li>
+<p>Then, you have to specify the submit button you want to track:</p>
+
+
+         </li>
 </ul><h2>
 <a name="structure" class="anchor" href="#structure"><span class="octicon octicon-link"></span></a>Structure</h2>
 
