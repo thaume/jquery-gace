@@ -391,3 +391,4 @@ Before sending a pull request remember to follow [jQuery Core Style Guide](http:
 ## License
 
 [MIT License](http://zenorocha.mit-license.org/)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/damln/jquery-gace/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
