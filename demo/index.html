@@ -31,56 +31,60 @@
 			<a href="http://google.fr">External</a>
 			<a href="http://google.fr" target="_blank">External Blank</a>
 
-			<form id="validationEngine" method="post" action="" class="form col-md-4">
+			<form id="validationEngine" method="get" action="" class="form col-md-4">
 				<input type="text" placeHolder="Use validation Engine" name="email" class="form-control validate[required,minSize[5]]">
 				<input type="submit" class="btn btn-primary" data-gace-submit>
 			</form>
 
-			<form method="post" action="" class="form col-md-4">
+			<form method="get" action="" class="form col-md-4">
 				<input type="text" name="email" class="form-control">
 				<input type="submit" class="btn btn-primary" data-gace-submit>
 			</form>
 
 		</div>
 
-		<div class="bloc" data-gace-bloc="feature1" data-gace-time="2"></div>
+		<div class="bloc" data-gace-bloc="feature1" data-gace-time="2">
+			<div class="h3">Feature 1, 2 secs</div>
+		</div>
 
 		<div class="bloc" data-gace-bloc="feature2" data-gace-time="1">
+			<div class="h3">Feature 2, 1 secs</div>
+
 			<div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="The pixel width of the plugin" data-height="The pixel height of the plugin" data-colorscheme="light" data-layout="button_count" data-action="like" data-show-faces="false" data-send="true"></div>
 
 		</div>
 		<div class="bloc" data-gace-bloc="feature3" data-gace-time="3" data-gace-view="80">
-<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
-
+			<div class="h3">Feature 3, 3 secs</div>
+			<a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
 		</div>
 		<div class="bloc">
 
 			<!-- <div class="fb-send" data-href="http://developers.facebook.com/docs/plugins/" data-width="The pixel width of the plugin" data-height="The pixel height of the plugin" data-colorscheme="light"></div> -->
 		</div>
 
-		<!-- plugins -->
 
 		<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
 
 		<script type="text/javascript" src="//cdn.jsdelivr.net/validation.engine/2.6.2/jquery.validationEngine.js"></script>
+		<!-- OPTIONNAL: Load jquery.validate.engine.js -->
 		<script type="text/javascript" src="//cdn.jsdelivr.net/validation.engine/2.6.2/languages/jquery.validationEngine-en.js"></script>
 
+		<!-- REQUIRED: Load jquery.gace.js -->
 		<script src="../src/jquery.gace.js"></script>
 
 		<script>
-		window.navigator.standalone = true;
+		// Test to detect standalone
+		//window.navigator.standalone = true;
 
 			$(function() {
 
+				// Optionnal: Use jquery.validationEngine-en.js
 				$("#validationEngine").validationEngine();
 
-
 				$.gace({
-					// debug: true,
-					kind: "ga",
-					// kind: "_gaq",
+					debug: true,
+					kind: "ga", // can be _gaq
 					ua: "UA-32768086-2",
-					// ua: "UA-32768086-1",
 					domain: "none",
 
 					mobileBrowsers: true,
