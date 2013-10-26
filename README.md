@@ -365,6 +365,11 @@ The basic structure of the project is given in the following way:
 	grunt
 	```
 
+4. Server
+
+	python -m SimpleHTTPServer 8000
+	open http://localhost:8000/demo
+
 ## TODO
 
 - DFP Events
