@@ -95,7 +95,8 @@ This option control the way to store the browser events in Google Analytics. You
 - **`"event"`**
 
 Will store the informations in "Events" with this organisation:
-Mobile Browser Kind > view > [browser name]
+
+**Mobile Browser Kind > view > [browser name]**
 
 Where [browser name] will be: iOS Safari, iOS standalone, iOS UIWebView or iOS Chrome.
 
@@ -136,11 +137,7 @@ Do you know a lot of users will open your page, navigate in an other tab for one
 	});
 	```
 
-When the user `blur` the window, a counter will start in the background. When he will `focus` your page again, an event will be send to Google Analytics with this format:
-
-**Activity > inactive > tab > [time in seconds]**
-
-Where [time in seconds] will be the time the page was in background.
+When the user `blur` the window, a counter will start in the background. When he will `focus` your page again, an event will be send to Google Analytics.
 
 - `inactiveTabMax` *(default: `10`)*
 
@@ -154,6 +151,16 @@ This settings control how much time the page has to be in background before send
 - `inactiveTabMaxTime` *(default: `null`, in seconds)*
 
 Same as `inactiveTabMinTime`, default to "null" so we keep tracking everything. If you don't want to track inactive tab more than X seconds, put it here.
+
+Event format:
+
+**Activity > inactive > tab > [time in seconds]**
+
+Where [time in seconds] will be the time the page was in background, as value.
+
+Example:
+
+*Activity > inactive > tab > 23*
 
 ### Outbound Links
 
@@ -190,6 +197,14 @@ Because links with no `target="_blank"` have to use a `setTimeout` to properly s
 - `outboundLinksTimeout` *(default: `200`, in milliseconds)*
 
 This timeout can be configured with this option.
+
+Event format:
+
+**Outbound Links > [hostname] > [link]**
+
+Example:
+
+*Outbound Links > facebook.com > http://facebook.com/mypages*
 
 ### Social Tracking
 
@@ -228,6 +243,18 @@ This will set a eventValue to each social events. It can be interesting to see w
 If you activate this, your action name in the Plugin section will look like: "Tweet (24 sec)". That mean the visitor tweet the link 24 seconds after he was on the page.
 
 
+Event format:
+
+**Sharing > [network] [share type] > [link]**
+
+Example:
+
+*Sharing > Twitter Tweet > http://mywebsite.com*
+
+*Sharing > Facebook Share > http://mywebsite.com*
+
+*Sharing > Facebook Like > http://mywebsite.com*
+
 ### Form events
 
 GACE is compatible with [jQuery Validation Engine](https://github.com/posabsolute/jQuery-Validation-Engine). If you use this plugin on a `form`, you can detect when a visitor submit a form with errors. And when he submit the form without errors. It's interesting to see the proportion of users trying to send something and users that really send something.
@@ -250,7 +277,18 @@ GACE is compatible with [jQuery Validation Engine](https://github.com/posabsolut
         <input type="submit" data-gace-submit value="send"/>
     </form>
 
-### Scroll Events (TODO)
+
+Event format:
+
+**Form > [status] > [identifier]**
+
+Example:
+
+*Form > valid > contact*
+
+*Form > not valid > contact*
+
+### Scroll Events
 
 This feature is for landing pages or content pages. You want to track if a user actually read your content. GACE will track two metrics: if the bloc id visible + how many times he stays on the bloc.
 
@@ -287,11 +325,15 @@ The percentage of the bloc visible on the page. By default, all the bloc has to 
 	<div data-gace-bloc="feature3" data-gace-time="2" data-gace-view="40">
 	</div>
 
-When a bloc with `data-gace-bloc` is visible and the minimum time on the bloc is done, GACE will trigger an event:
+When a bloc with `data-gace-bloc` is visible and the minimum time on the bloc is done.
+
+Event format:
 
 **Read > scroll > [data-gace-bloc]**
 
+Example:
 
+*Read > scroll > pricing*
 
 ### DFP Ads Events (TODO)
 What if you can track if an ad from DFP has been viewed? Same concept as scroll events, with the ads. And what if you can track the clicks in your Google Analytics Event from your DFP ads?
@@ -312,17 +354,17 @@ What if you can track if an ad from DFP has been viewed? Same concept as scroll 
 
 Detect the clicks on your DFP ads.
 
-GACE will trigger an event:
-
-**DFP > click > [ad identifier]**
-
 - `dfpScrollEvents` *(default: `false`)*
 
 Detect if an ad as been viewed (scroll + minimum time)
 
-GACE will trigger an event:
+Event format:
 
 **DFP > view > [ad identifier]**
+
+Example:
+
+**DFP > view > banner**
 
 ## Structure
 
@@ -391,6 +433,7 @@ Before sending a pull request remember to follow [jQuery Core Style Guide](http:
 6. Submit a pull request
 
 ## History
+- 0.0.2: Stabilize and add Scroll Events.
 - 0.0.1: First version.
 
 ## License

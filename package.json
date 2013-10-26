@@ -1,14 +1,14 @@
 {
 	"name": "jquery-gace",
 	"title": "jQuery Google Analytics Custom Events",
-	"description": "Add some customs events for your web and mobile tracking",
+	"description": "Add some customs events for your web and mobile tracking.",
 	"author": "Damian Le Nouaille",
 	"repository": {
 		"type" : "git",
 		"url" : "http://github.com/damln/jquery-gace.git"
 	},
-	"homepage": "http://github.com/damln/jquery-gace",
-	"version": "0.0.1",
+	"homepage": "http://damln.github.io/jquery-gace/",
+	"version": "0.0.2",
 	"devDependencies": {
 		"grunt": "~0.4.1",
 		"grunt-cli": "~0.1.7",

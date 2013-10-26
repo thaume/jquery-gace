@@ -416,7 +416,7 @@
 				}
 
 				if ( self.settings.socialTrackingKind === "event" ) {
-					self._sendEvent( "Sharing on " + network, action, url );
+					self._sendEvent( "Sharing", network + " " + action, url );
 				}
 			};
 
