@@ -138,8 +138,9 @@
 
 <ul>
 <li><strong><code>"event"</code></strong></li>
-</ul><p>Will store the informations in "Events" with this organisation:
-Mobile Browser Kind &gt; view &gt; [browser name]</p>
+</ul><p>Will store the informations in "Events" with this organisation:</p>
+
+<p><strong>Mobile Browser Kind &gt; view &gt; [browser name]</strong></p>
 
 <p>Where [browser name] will be: iOS Safari, iOS standalone, iOS UIWebView or iOS Chrome.</p>
 
@@ -186,11 +187,7 @@ You can use 5 custom variables. If you want to store the mobile version as a cus
 <span class="p">});</span>
 </pre></div>
 </li>
-</ul><p>When the user <code>blur</code> the window, a counter will start in the background. When he will <code>focus</code> your page again, an event will be send to Google Analytics with this format:</p>
-
-<p><strong>Activity &gt; inactive &gt; tab &gt; [time in seconds]</strong></p>
-
-<p>Where [time in seconds] will be the time the page was in background.</p>
+</ul><p>When the user <code>blur</code> the window, a counter will start in the background. When he will <code>focus</code> your page again, an event will be send to Google Analytics.</p>
 
 <ul>
 <li>
@@ -210,6 +207,16 @@ Imagine a visitor blur and focus your page 30 times in 2 minutes, you will have 
 <code>inactiveTabMaxTime</code> <em>(default: <code>null</code>, in seconds)</em>
 </li>
 </ul><p>Same as <code>inactiveTabMinTime</code>, default to "null" so we keep tracking everything. If you don't want to track inactive tab more than X seconds, put it here.</p>
+
+<p>Event format:</p>
+
+<p><strong>Activity &gt; inactive &gt; tab &gt; [time in seconds]</strong></p>
+
+<p>Where [time in seconds] will be the time the page was in background, as value.</p>
+
+<p>Example:</p>
+
+<p><em>Activity &gt; inactive &gt; tab &gt; 23</em></p>
 
 <h3>
 <a name="outbound-links" class="anchor" href="#outbound-links"><span class="octicon octicon-link"></span></a>Outbound Links</h3>
@@ -252,6 +259,14 @@ Imagine a visitor blur and focus your page 30 times in 2 minutes, you will have 
 </li>
 </ul><p>This timeout can be configured with this option.</p>
 
+<p>Event format:</p>
+
+<p><strong>Outbound Links &gt; [hostname] &gt; [link]</strong></p>
+
+<p>Example:</p>
+
+<p><em>Outbound Links &gt; facebook.com &gt; <a href="http://facebook.com/mypages">http://facebook.com/mypages</a></em></p>
+
 <h3>
 <a name="social-tracking" class="anchor" href="#social-tracking"><span class="octicon octicon-link"></span></a>Social Tracking</h3>
 
@@ -293,6 +308,18 @@ But you can track them as a classic Event, just change this option to "event".</
 </ul><p>This will set a eventValue to each social events. It can be interesting to see when they share the page. Is it 2 seconds after the page is open? 2 minutes?
 If you activate this, your action name in the Plugin section will look like: "Tweet (24 sec)". That mean the visitor tweet the link 24 seconds after he was on the page.</p>
 
+<p>Event format:</p>
+
+<p><strong>Sharing &gt; [network] [share type] &gt; [link]</strong></p>
+
+<p>Example:</p>
+
+<p><em>Sharing &gt; Twitter Tweet &gt; <a href="http://mywebsite.com">http://mywebsite.com</a></em></p>
+
+<p><em>Sharing &gt; Facebook Share &gt; <a href="http://mywebsite.com">http://mywebsite.com</a></em></p>
+
+<p><em>Sharing &gt; Facebook Like &gt; <a href="http://mywebsite.com">http://mywebsite.com</a></em></p>
+
 <h3>
 <a name="form-events" class="anchor" href="#form-events"><span class="octicon octicon-link"></span></a>Form events</h3>
 
@@ -315,8 +342,18 @@ If you activate this, your action name in the Plugin section will look like: "Tw
 
 
     </li>
-</ul><h3>
-<a name="scroll-events-todo" class="anchor" href="#scroll-events-todo"><span class="octicon octicon-link"></span></a>Scroll Events (TODO)</h3>
+</ul><p>Event format:</p>
+
+<p><strong>Form &gt; [status] &gt; [identifier]</strong></p>
+
+<p>Example:</p>
+
+<p><em>Form &gt; valid &gt; contact</em></p>
+
+<p><em>Form &gt; not valid &gt; contact</em></p>
+
+<h3>
+<a name="scroll-events" class="anchor" href="#scroll-events"><span class="octicon octicon-link"></span></a>Scroll Events</h3>
 
 <p>This feature is for landing pages or content pages. You want to track if a user actually read your content. GACE will track two metrics: if the bloc id visible + how many times he stays on the bloc.</p>
 
@@ -359,9 +396,15 @@ If you activate this, your action name in the Plugin section will look like: "Tw
 &lt;/div&gt;
 </code></pre>
 
-<p>When a bloc with <code>data-gace-bloc</code> is visible and the minimum time on the bloc is done, GACE will trigger an event:</p>
+<p>When a bloc with <code>data-gace-bloc</code> is visible and the minimum time on the bloc is done.</p>
+
+<p>Event format:</p>
 
 <p><strong>Read &gt; scroll &gt; [data-gace-bloc]</strong></p>
+
+<p>Example:</p>
+
+<p><em>Read &gt; scroll &gt; pricing</em></p>
 
 <h3>
 <a name="dfp-ads-events-todo" class="anchor" href="#dfp-ads-events-todo"><span class="octicon octicon-link"></span></a>DFP Ads Events (TODO)</h3>
@@ -384,19 +427,19 @@ If you activate this, your action name in the Plugin section will look like: "Tw
 <li><p><code>dfpClicksEvents</code> <em>(default: <code>false</code>)</em></p></li>
 </ul><p>Detect the clicks on your DFP ads.</p>
 
-<p>GACE will trigger an event:</p>
-
-<p><strong>DFP &gt; click &gt; [ad identifier]</strong></p>
-
 <ul>
 <li>
 <code>dfpScrollEvents</code> <em>(default: <code>false</code>)</em>
 </li>
 </ul><p>Detect if an ad as been viewed (scroll + minimum time)</p>
 
-<p>GACE will trigger an event:</p>
+<p>Event format:</p>
 
 <p><strong>DFP &gt; view &gt; [ad identifier]</strong></p>
+
+<p>Example:</p>
+
+<p><strong>DFP &gt; view &gt; banner</strong></p>
 
 <h2>
 <a name="structure" class="anchor" href="#structure"><span class="octicon octicon-link"></span></a>Structure</h2>
@@ -442,6 +485,12 @@ If you activate this, your action name in the Plugin section will look like: "Tw
 <pre lang="shell"><code>grunt
 </code></pre>
 </li>
+<li>
+<p>Server</p>
+
+<p>python -m SimpleHTTPServer 8000
+open http://localhost:8000/demo</p>
+</li>
 </ol><h2>
 <a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO</h2>
 
@@ -471,11 +520,14 @@ If you activate this, your action name in the Plugin section will look like: "Tw
 <a name="history" class="anchor" href="#history"><span class="octicon octicon-link"></span></a>History</h2>
 
 <ul>
+<li>0.0.2: Stabilize and add Scroll Events.</li>
 <li>0.0.1: First version.</li>
 </ul><h2>
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p><a href="http://zenorocha.mit-license.org/">MIT License</a></p>
+
+<p><a href="https://bitdeli.com/free" title="Bitdeli Badge"><img src="https://d2weczhvl823v0.cloudfront.net/damln/jquery-gace/trend.png" alt="Bitdeli Badge"></a></p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/damln">damln</a></p>
