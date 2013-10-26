@@ -20,6 +20,7 @@
 		Debounce function
 		https://github.com/diaspora/jquery-debounce/blob/master/src/jquery-debounce.js
 	*/
+
 	function debounce(callback, delay) {
 		var self = this, timeout, _arguments;
 		return function() {
@@ -67,7 +68,7 @@
 
 		mobileBrowsers: false,
 		outboundLinks: false,
-		// can be ["Twitter"], ["Facebook"], or ["Twitter", "Facebook"]:
+		// Can be ["Twitter"], ["Facebook"], or ["Twitter", "Facebook"]:
 		socialTracking: [],
 		inactiveTab: false,
 		scrollEvents: false,
@@ -84,17 +85,19 @@
 		// in milliseconds
 		outboundLinksTimeout: 200,
 
-		// in seconds:
-		inactiveTabMax: 10,
-		// in seconds:
-		inactiveTabMinTime: 3,
-		// in seconds, can be null:
-		inactiveTabMaxTime: null,
-
 		// can be "event", or "social"
 		socialTrackingKind: "social",
 		socialTrackingTime: false,
-		fbAppId: "134030676692228"
+		fbAppId: "134030676692228",
+
+		// in seconds:
+		inactiveTabMax: 5,
+		// in seconds:
+		inactiveTabMinTime: 10,
+		// in seconds, can be null:
+		inactiveTabMaxTime: null,
+
+		scrollEventsTime: 2
 	};
 
 	/*
@@ -154,6 +157,8 @@
 	};
 
 	// =====================================
+	// =====================================
+	// =====================================
 
 	/*
 		The actual plugin constructor
@@ -162,7 +167,12 @@
 	function Plugin ( options ) {
 		this.settings = $.extend( {}, defaults, options );
 		this.counter = 0;
-		this.body = $("body");
+
+		// Cache element
+		this.$body = $( "body" );
+		this.$window = $( window );
+		this.$document = $( document );
+
 		this.init();
 		return this;
 	}
@@ -288,7 +298,7 @@
 			// With Dimension mode ( only ga() )
 			if ( self.settings.mobileBrowsersMode === "dimension" ) {
 				if ( self.settings.king !== "ga" ) {
-					console.log("Warning: you're using Dimension fwith the old ga.js tracker. Please use customVar instead for Mobile Browser Kind tracking");
+					console.log("Warning: you're using Dimension with the old ga.js tracker. Please use customVar instead for Mobile Browser Kind tracking");
 					return null;
 				}
 
@@ -298,10 +308,9 @@
 		},
 
 		/*
-			@TODO
 			Handle scroll to elements with:
 
-			"data-gace" attributes
+			"data-gace-bloc" attributes
 
 			and
 
@@ -309,13 +318,13 @@
 		*/
 
 		scrollEvents: function () {
-			var $elements, self, windowHeight, scrollTop;
+			var $elements, self, windowHeight, scrollTop, bottom;
 			self = this;
 
 			self.scrollEventsElements = {};
-			self.scrollEventsRecord = {};
+			self.scrollEventsDone = {};
 
-			windowHeight = $( window ).height();
+			windowHeight = self.$window.height();
 			$elements = $( "[data-gace-bloc]" );
 
 			// Get elements configuration
@@ -325,35 +334,71 @@
 				$el = $( el );
 				blocName = $el.attr( "data-gace-bloc" );
 
+				// Get percent view for each bloc, or default 100
 				percent = parseInt( $el.attr( "data-gace-view"), 10 );
 				percent = percent || 100;
 
-				self.scrollEventsRecord[blocName] = {};
 				self.scrollEventsElements[blocName] = {};
 
 				// shortcut to var ref
 				ref = self.scrollEventsElements[blocName];
 
+				// internal
+				ref.interval = 0;
+				ref.timer = 0;
 				ref.height = $el.height();
 				ref.offset = $el.offset().top;
-				ref.bottom = ref.height + ref.offset;
-				ref.time = parseInt( $el.attr( "data-gace-time"), 10 ) || 1;
-				ref.percent = percent;
+
+				// used. Bottom is simulated with the percent passed
+				percent = Math.round( ( ref.height * percent ) / 100 );
+				ref.bottom = percent + ref.offset;
+				ref.time = parseInt( $el.attr( "data-gace-time"), 10 ) || self.settings.scrollEventsTime;
+				ref.time = ref.time * 1000;
 			});
 
-			// console.table( self.scrollEventsElements );
+			var intervalFunc = function ( key, element ) {
+				element.timer = element.timer + 500;
+
+				if ( element.timer >= element.time ) {
+					// Trigger event
+					self._sendEvent("Scroll", "done", key);
+					clearInterval( element.interval );
+					element.interval = 0;
+				}
+			};
 
 			var scrollWindow = function () {
 
 				// Scroll top is the pixels scrolls by viitor
-				scrollTop = $( document ).scrollTop();
+				scrollTop = self.$document.scrollTop();
+				bottom = scrollTop + windowHeight;
+
+				$.each( self.scrollEventsElements, function( key, element ) {
+
+					// When element if off screen (scrolled)
+					if ( scrollTop > element.bottom && element.interval ) {
+						// Stop the interval for this element
+						clearInterval( element.interval );
+						element.interval = 0;
+					}
+
+					// When on screen, do it once
+					if ( element.bottom < bottom && !self.scrollEventsDone[key] ) {
+						// Start timer for this element
+						element.interval = setInterval(function() {
+							intervalFunc( key, element );
+						}, 500);
+
+						self.scrollEventsDone[key] = true;
+					}
+				});
 			};
 
 			// call it once, there are probably elements visibles.
 			scrollWindow();
 
 			// Then, Use debounce to not oversend events and attach event
-			$( window ).debounce( "scroll", scrollWindow, 200 );
+			self.$window.debounce( "scroll", scrollWindow, 200 );
 		},
 
 		/*
@@ -563,8 +608,8 @@
 			};
 
 			// Attach events
-			$( window ).blur( blur );
-			$( window ).focus( focus );
+			self.$window.blur( blur );
+			self.$window.focus( focus );
 		},
 
 		/*
@@ -575,7 +620,7 @@
 		formEvents: function () {
 			var self, $submits;
 			self = this;
-			$submits = $(" [data-gace-submit] ");
+			$submits = $( "[data-gace-submit]" );
 
 			$submits.each(function( i, submit ) {
 				var $el, $form, onFormSubmit, identifier;
@@ -585,6 +630,7 @@
 				// Check validation engine exist
 				identifier = $form[0].id || "form";
 
+				// Check if validation engine exist
 				if ( $.isFunction( $form.validationEngine ) ) {
 
 					onFormSubmit = function ( e ) {
@@ -617,7 +663,7 @@
 					};
 				}
 
-				$el.click( onFormSubmit );
+				$el.on( "click", onFormSubmit );
 			});
 		},
 
@@ -627,7 +673,7 @@
 			return self._sendEvent( args[0], args[1], args[2], args[3], args[4] );
 		},
 
-		//----------- PRIVATE
+		//----------- PRIVATE: ----------------
 
 		/*
 			Private interface to get Browser Kind for iOS
@@ -725,7 +771,6 @@
 			var params, list, self;
 			self = this;
 
-
 			if ( typeof eventValue === "undefined" ) {
 				// Send the seconds
 				eventValue = Math.round( self.counter );
@@ -807,15 +852,15 @@
 				identifierAction = eventAction.replace(" ", "_");
 				identifierLabel = eventLabel.replace(" ", "_");
 
-				self.body.trigger( kind + ":category:" + identifierCategory,
+				self.$body.trigger( kind + ":category:" + identifierCategory,
 				                  [ eventCategory, eventAction, eventLabel, eventValue ] );
-				self.body.trigger( kind + ":action:" + identifierAction,
+				self.$body.trigger( kind + ":action:" + identifierAction,
 				                  [ eventCategory, eventAction, eventLabel, eventValue ] );
-				self.body.trigger( kind + ":label:" + identifierLabel,
+				self.$body.trigger( kind + ":label:" + identifierLabel,
 				                  [ eventCategory, eventAction, eventLabel, eventValue ] );
-				self.body.trigger( kind + ":category:" + identifierCategory + ":" + identifierAction,
+				self.$body.trigger( kind + ":category:" + identifierCategory + ":" + identifierAction,
 				                  [ eventCategory, eventAction, eventLabel, eventValue ] );
-				self.body.trigger( kind + ":category:" + identifierCategory + ":" + identifierAction + ":" + identifierLabel,
+				self.$body.trigger( kind + ":category:" + identifierCategory + ":" + identifierAction + ":" + identifierLabel,
 				                  [ eventCategory, eventAction, eventLabel, eventValue ] );
 		}
 	};
@@ -828,6 +873,8 @@
 		if ( !$[ pluginName ]._instance ) {
 			$[ pluginName ]._instance = new Plugin( optionsOrMethod );
 		}
+
+		return $[ pluginName ]._instance;
 	};
 
 })( jQuery, window, document );
