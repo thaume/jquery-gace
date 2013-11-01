@@ -835,7 +835,7 @@
 			Two kind: "doing" or "done"
 		*/
 
-		_trigger: function ( kind, params) {
+		_trigger: function ( kind, params ) {
 				var
 				self,
 				identifierCategory, identifierAction, identifierLabel,
